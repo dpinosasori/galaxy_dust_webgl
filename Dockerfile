@@ -7,9 +7,12 @@ RUN apk add --no-cache --virtual .build-deps curl unzip
 ARG S3_URL
 ARG FILE_NAME
 
+# Eliminar archivos por defecto de Nginx
+RUN rm -rf /usr/share/nginx/html/*
+
 # Descargar y preparar el build
 RUN curl -L "${S3_URL}" -o "${FILE_NAME}.zip" && \
-    unzip "${FILE_NAME}.zip" -d /usr/share/nginx/html && \
+    unzip -o "${FILE_NAME}.zip" -d /usr/share/nginx/html && \
     rm "${FILE_NAME}.zip" && \
     apk del .build-deps
 
